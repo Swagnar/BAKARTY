@@ -4,16 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BAKARTY</title>
-  <style>
-    #main-canvas {
-      border: 1px solid black;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header></header>
-  <main>
+  <header>
     <h1>Generator kart dla Roll20</h1>
+  </header>
+  <main>
     <section>
       <canvas id="main-canvas" width="400" height="600"></canvas>
     </section>
@@ -30,8 +27,10 @@
         <label for="content-input">Zawartość: </label>
         <textarea id="content-input"></textarea>
       </div>
-      <button id="generate-button">Generuj kartę</button>
-      <button id="download-button">Pobierz kartę</button>
+      <div class="field btn-group">
+        <button id="generate-button">Generuj kartę</button>
+        <button id="download-button">Pobierz kartę</button>
+      </div>
     </section>
   </main>
   <footer></footer>
