@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BAKARTY</title>
+  <style>
+    #main-canvas {
+      border: 1px solid black;
+    }
+  </style>
+</head>
+<body>
+  <header></header>
+  <main>
+    <h1>Generator kart dla Roll20</h1>
+    <section>
+      <canvas id="main-canvas" width="400" height="600"></canvas>
+    </section>
+    <section>
+      <div class="field">
+        <label for="icon-file-input__tag">Ikona: </label>
+        <input type="file" name="icon-file-input" id="icon-file-input__tag">
+      </div>
+      <div class="field">
+        <label for="name-input">Nazwa: </label>
+        <input type="text" id="name-input">
+      </div>
+      <div class="field">
+        <label for="content-input">Zawartość: </label>
+        <textarea id="content-input"></textarea>
+      </div>
+      <button id="generate-button">Generuj kartę</button>
+      <button id="download-button">Pobierz kartę</button>
+    </section>
+  </main>
+  <footer></footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
