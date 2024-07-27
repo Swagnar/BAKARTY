@@ -1,10 +1,22 @@
 const CANVAS = document.getElementById('main-canvas');
 const CTX = CANVAS.getContext('2d');
 const ICON_INPUT = document.getElementById('icon-file-input__tag');
+
 const NAME_INPUT = document.getElementById('name-input');
-const CONTENT_INPUT = document.getElementById('content-input');
+const NAME_BACKGROUND_INPUT = document.getElementById('name-background-input');
+
+const DESCRIPTION_INPUT = document.getElementById('description-input');
+const DESCRIPTION_BACKGROUND_INPUT = document.getElementById('description-background-input')
+
 const GENERATE_BUTTON = document.getElementById('generate-button');
 const DOWNLOAD_BUTTON = document.getElementById('download-button');
+
+const CANVAS_BOXES_WIDTH = CANVAS.width - 100;
+const NAME_CANVAS_BOX_HEIGHT = 60;
+const DESCRIPTION_CANVAS_BOX_HEIGHT = 200;
+
+var nameBackgroundColor = NAME_BACKGROUND_INPUT.value;
+var descriptionBackgroundColor = DESCRIPTION_BACKGROUND_INPUT.value;
 
 const fontFile = new FontFace(
   "FontFamily Style Vinque",
@@ -25,14 +37,33 @@ let iconImage = new Image(100, 100);
 iconImage.crossOrigin = "anonymous";
 
 
-ICON_INPUT.addEventListener('change', handleIconUpload);
-GENERATE_BUTTON.addEventListener('click', generateCard);
-DOWNLOAD_BUTTON.addEventListener('click', downloadCard);
 
 window.onload = () => {
+  initListeners()
   drawBackground();
-  drawName("Debugy");
-  drawContent("Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae fugiat ad inventore libero eos modi eaque quos accusantium consequatur esse illum tempora eligendi, quo aliquam recusandae. Placeat tempore impedit dolores.");
+
+  // DEBUG
+  // drawName("Podpalenie");
+  // drawDescription("Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae fugiat ad inventore libero eos modi eaque quos accusantium consequatur esse illum tempora eligendi, quo aliquam recusandae. Placeat tempore impedit dolores.");
+}
+
+function initListeners() {
+  ICON_INPUT.addEventListener('change', handleIconUpload);
+
+  NAME_INPUT.addEventListener('input', generateCard)
+  NAME_BACKGROUND_INPUT.addEventListener('input', function() {
+    nameBackgroundColor = NAME_BACKGROUND_INPUT.value;
+    generateCard();
+  })
+  
+  DESCRIPTION_INPUT.addEventListener('input', generateCard)
+  DESCRIPTION_BACKGROUND_INPUT.addEventListener('input', function() {
+    descriptionBackgroundColor = DESCRIPTION_BACKGROUND_INPUT.value;
+    generateCard();
+  })
+  
+  GENERATE_BUTTON.addEventListener('click', generateCard);
+  DOWNLOAD_BUTTON.addEventListener('click', downloadCard);
 }
 
 function handleIconUpload(event) {
@@ -41,6 +72,9 @@ function handleIconUpload(event) {
 
   reader.onload = function(e) {
     iconImage.src = e.target.result;
+    iconImage.onload = function() {
+      generateCard();
+    };
   };
 
   reader.readAsDataURL(file);
@@ -48,59 +82,80 @@ function handleIconUpload(event) {
 
 function generateCard() {
   const name = NAME_INPUT.value;
-  const content = CONTENT_INPUT.value;
+  const description = DESCRIPTION_INPUT.value;
   
-  CTX.clearRect(0, 0, CANVAS.width, CANVAS.height);
   drawBackground();
   drawIcon();
   drawName(name);
-  drawContent(content);
+  drawDescription(description);
 }
 
+
 function drawBackground() {
-  backgroundImage.onload = function() {
-    CTX.drawImage(backgroundImage, 0, 0, CANVAS.width, CANVAS.height);
-  };
+  CTX.clearRect(0, 0, CANVAS.width, CANVAS.height);
   if (backgroundImage.src) {
     CTX.drawImage(backgroundImage, 0, 0, CANVAS.width, CANVAS.height);
   } else {
     CTX.fillStyle = '#ffffff';
     CTX.fillRect(0, 0, CANVAS.width, CANVAS.height);
   }
-  CTX.fillStyle = '#333';
-  CTX.fillRect(50, 193, CANVAS.width - 100, 60);
-  CTX.fillRect(50, 300, CANVAS.width - 100, 200);
+  
+  // Name box
+  CTX.fillStyle = nameBackgroundColor;
+  CTX.fillRect(50, 200, CANVAS_BOXES_WIDTH, NAME_CANVAS_BOX_HEIGHT);
+
+  // Description box
+  CTX.fillStyle = descriptionBackgroundColor;
+  CTX.fillRect(50, 300, CANVAS_BOXES_WIDTH, DESCRIPTION_CANVAS_BOX_HEIGHT);
 }
 
 function drawIcon() {
-  iconImage.onload = function() {
-    CTX.drawImage(iconImage, CANVAS.width / 2 - iconImage.width / 2, 70, this.width, this.height);
-  };
   if (iconImage.src) {
-    CTX.drawImage(iconImage, CANVAS.width / 2 - iconImage.width / 2, 70, this.width, this.height);
+    CTX.drawImage(iconImage, CANVAS.width / 2 - iconImage.width / 2, 70, iconImage.width, iconImage.height);
   }
 }
 
+
 function drawName(name) {
+  let fontSize = 54;
+  const maxFontSize = 54;
+  const minFontSize = 20;
+  const yCenter = 200 + NAME_CANVAS_BOX_HEIGHT / 2; 
+
   CTX.textAlign = 'center';
-  CTX.font = '54px FontFamily Style Vinque';
+  CTX.fillStyle = '#7d6c4e';
   CTX.strokeStyle = '#473e32';
   CTX.lineWidth = 3;
-  CTX.strokeText(name, CANVAS.width / 2, 240);
-  CTX.fillStyle = '#7d6c4e'
-  CTX.fillText(name, CANVAS.width / 2, 240);
+  CTX.textBaseline = 'middle'; 
+
+
+  do {
+    CTX.font = `${fontSize}px FontFamily Style Vinque`;
+    const textWidth = CTX.measureText(name).width;
+    const textMetrics = CTX.measureText(name);
+    const textHeight = textMetrics.actualBoundingBoxAscent + textMetrics.actualBoundingBoxDescent;
+    if (textWidth <= CANVAS_BOXES_WIDTH && textHeight <= NAME_CANVAS_BOX_HEIGHT) {
+      break;
+    }
+    fontSize--;
+  } while (fontSize > minFontSize);
+
+  CTX.font = `${fontSize}px FontFamily Style Vinque`;
+  CTX.strokeText(name, CANVAS.width / 2, yCenter);
+  CTX.fillText(name, CANVAS.width / 2, yCenter);
 }
 
-function drawContent(content) {
+
+function drawDescription(description) {
   CTX.font = '16px "FontFamily Style Vinque"';
   CTX.fillStyle = '#bfaf8f'
   CTX.textAlign = 'left';
-  const lines = content.split('\n');
+  const lines = description.split('\n');
   let y = 320;
 
   lines.forEach(line => {
     wrapText(line, 55, y, 300, 20);
-    y += 20;
+    y += 20; // Adjust y for each new line
   });
 }
 

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BAKARTY</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
 </head>
 <body>
   <header>
@@ -19,13 +20,20 @@
         <label for="icon-file-input__tag">Ikona: </label>
         <input type="file" name="icon-file-input" id="icon-file-input__tag">
       </div>
-      <div class="field">
+      <div class="field field-double">
         <label for="name-input">Nazwa: </label>
         <input type="text" id="name-input">
+
+        <label for="name-background-input">Kolor tła:</label>
+        <input type="color" id="name-background-input" value="#333333">
       </div>
-      <div class="field">
-        <label for="content-input">Zawartość: </label>
-        <textarea id="content-input"></textarea>
+      <div class="field field-double">
+        <label for="description-input">Zawartość: </label>
+        <textarea id="description-input"></textarea>
+
+        <label for="description-background-input">Kolor tła:</label>
+        <input type="color" id="description-background-input" value="#333333">
+
       </div>
       <div class="field btn-group">
         <button id="generate-button">Generuj kartę</button>

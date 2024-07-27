@@ -10,6 +10,12 @@
   --clr-dark: #473e32;
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   background-color: var(--clr-dark);
@@ -83,6 +89,14 @@ main > section:nth-child(2) {
 }
 .field > textarea,
 .field > input {
+  width: 100%;
+}
+.field.field-double {
+  display: grid;
+  
+  row-gap: .5rem;
+}
+.field.field-double textarea {
   width: 100%;
 }
 .btn-group {
