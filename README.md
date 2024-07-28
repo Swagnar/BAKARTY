@@ -26,4 +26,4 @@ The app is avaiable via Github Pages [here](https://swagnar.github.io/BAKARTY/)
 
 ## License
  
-BAKARTY is avaiable under the GNU General Public License v2.0. - see the [LICENSE](LICENSE.md) file for details
+BAKARTY is avaiable under the GNU General Public License v2.0. - see the [LICENSE](LICENSE) file for details
