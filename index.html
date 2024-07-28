@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,40 +9,65 @@
 </head>
 <body>
   <header>
-    <h1>Generator kart dla Roll20</h1>
+    <h1 data-en="Card generator for Roll20" data-pl="Generator kart dla Roll20">Generator kart dla Roll20</h1>
   </header>
   <main>
     <section>
-      <canvas id="main-canvas" width="400" height="600"></canvas>
+      <canvas id="canvas" width="400" height="600"></canvas>
     </section>
     <section>
       <div class="field">
-        <label for="icon-file-input__tag">Ikona: </label>
-        <input type="file" name="icon-file-input" id="icon-file-input__tag">
+        <label for="icon__input" data-en="Icon:" data-pl="Ikona:">Ikona: </label>
+        <input type="file" name="icon" id="icon__input">
+      </div>
+      <div class="field">
+        <label for="background__input" data-en="Background:" data-pl="Tło:">Tło: </label>
+        <input type="file" name="background" id="background__input">
       </div>
       <div class="field field-double">
-        <label for="name-input">Nazwa: </label>
-        <input type="text" id="name-input">
+        <label for="name__input" data-en="Name:" data-pl="Nazwa:">Nazwa: </label>
+        <input type="text" id="name__input">
 
-        <label for="name-background-input">Kolor tła:</label>
-        <input type="color" id="name-background-input" value="#333333">
+        <label for="name-background__input" data-en="Background color:" data-pl="Kolor tła:">Kolor tła:</label>
+        <input type="color" id="name-background__input" value="#333333">
       </div>
       <div class="field field-double">
-        <label for="description-input">Zawartość: </label>
-        <textarea id="description-input"></textarea>
+        <label for="description__input" data-en="Description:" data-pl="Opis:">Opis: </label>
+        <textarea id="description__input"></textarea>
 
-        <label for="description-background-input">Kolor tła:</label>
-        <input type="color" id="description-background-input" value="#333333">
+        <label for="description-background__input" data-en="Background color:" data-pl="Kolor tła:">Kolor tła:</label>
+        <input type="color" id="description-background__input" value="#333333">
 
       </div>
       <div class="field btn-group">
-        <button id="generate-button">Generuj kartę</button>
-        <button id="download-button">Pobierz kartę</button>
+        <button id="generate-button" data-en="Generate" data-pl="Generuj">Generuj</button>
+        <button id="download-button" data-en="Download" data-pl="Pobierz">Pobierz</button>
       </div>
     </section>
   </main>
-  <footer></footer>
+  <footer>
+    <a href="https://github.com/Swagnar" target="_blank">Swagnar</a> 2024
+  </footer>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      function setLanguage(language) {
+        document.querySelectorAll('[data-en]').forEach(el => {
+          el.textContent = el.getAttribute(`data-${language}`);
+        });
+      }
 
+      function detectLanguage() {
+        const userLang = navigator.language || navigator.userLanguage;
+        if (userLang.startsWith('pl')) {
+          setLanguage('pl');
+        } else {
+          setLanguage('en');
+        }
+      }
+
+      detectLanguage();
+    });
+  </script>
   <script src="main.js"></script>
 </body>
 </html>

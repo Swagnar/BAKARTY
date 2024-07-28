@@ -1,34 +1,44 @@
-const CANVAS = document.getElementById('main-canvas');
+const CANVAS = document.getElementById('canvas');
 const CTX = CANVAS.getContext('2d');
-const ICON_INPUT = document.getElementById('icon-file-input__tag');
 
-const NAME_INPUT = document.getElementById('name-input');
-const NAME_BACKGROUND_INPUT = document.getElementById('name-background-input');
+// Image inputs
+const ICON_INPUT = document.getElementById('icon__input');
+const BACKGROUND_INPUT = document.getElementById('background__input');
 
-const DESCRIPTION_INPUT = document.getElementById('description-input');
-const DESCRIPTION_BACKGROUND_INPUT = document.getElementById('description-background-input')
+// Card name block
+const NAME_INPUT = document.getElementById('name__input');
+const NAME_BACKGROUND_INPUT = document.getElementById('name-background__input');
 
+// Card description block 
+const DESCRIPTION_INPUT = document.getElementById('description__input');
+const DESCRIPTION_BACKGROUND_INPUT = document.getElementById('description-background__input')
+
+// Buttons
 const GENERATE_BUTTON = document.getElementById('generate-button');
 const DOWNLOAD_BUTTON = document.getElementById('download-button');
 
+// Constant values
 const CANVAS_BOXES_WIDTH = CANVAS.width - 100;
 const NAME_CANVAS_BOX_HEIGHT = 60;
 const DESCRIPTION_CANVAS_BOX_HEIGHT = 200;
 
+// Setting initial background colors
 var nameBackgroundColor = NAME_BACKGROUND_INPUT.value;
 var descriptionBackgroundColor = DESCRIPTION_BACKGROUND_INPUT.value;
 
+// Creating, loading and appending the Vinque font
 const fontFile = new FontFace(
   "FontFamily Style Vinque",
   "url(Vinque.otf)"
 )
+
 fontFile.load().then(function(loadedFont) {
   document.fonts.add(loadedFont);
 }).catch(function(error) {
   console.error('Failed to load font:', error);
 });
 
-
+// Setting initial images with default values
 let backgroundImage = new Image();
 backgroundImage.crossOrigin = "anonymous";
 backgroundImage.src = "bg.png"
@@ -37,7 +47,7 @@ let iconImage = new Image(100, 100);
 iconImage.crossOrigin = "anonymous";
 
 
-
+// On loading the page, initialize event Listeners and draw blank card with boxes for name and description
 window.onload = () => {
   initListeners()
   drawBackground();
@@ -47,8 +57,17 @@ window.onload = () => {
   // drawDescription("Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae fugiat ad inventore libero eos modi eaque quos accusantium consequatur esse illum tempora eligendi, quo aliquam recusandae. Placeat tempore impedit dolores.");
 }
 
+/**
+ * This function adds event listeners to all DOM elements used in the app.
+ */
 function initListeners() {
-  ICON_INPUT.addEventListener('change', handleIconUpload);
+
+  ICON_INPUT.addEventListener('change', function(ev) {
+    handleImageUpload(ev, "ICON");
+  })
+  BACKGROUND_INPUT.addEventListener('change', function(ev) {
+    handleImageUpload(ev, "BG");
+  })
 
   NAME_INPUT.addEventListener('input', generateCard)
   NAME_BACKGROUND_INPUT.addEventListener('input', function() {
@@ -66,15 +85,25 @@ function initListeners() {
   DOWNLOAD_BUTTON.addEventListener('click', downloadCard);
 }
 
-function handleIconUpload(event) {
+function handleImageUpload(event, type) {
   const file = event.target.files[0];
   const reader = new FileReader();
 
   reader.onload = function(e) {
-    iconImage.src = e.target.result;
-    iconImage.onload = function() {
-      generateCard();
-    };
+    switch(type) {
+      case "ICON":
+        iconImage.src = e.target.result;
+        iconImage.onload = function() {
+          generateCard();
+        };
+        break;
+      case "BG":
+        backgroundImage.src = e.target.result;
+        backgroundImage.onload = function() {
+          generateCard();
+        } 
+    }
+    
   };
 
   reader.readAsDataURL(file);

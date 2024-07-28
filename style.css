@@ -1,6 +1,6 @@
 :root {
-  --offset-x: 25vw;
-  --offset-y: 1vh;
+  --margin-x: 20vw;
+  --margin-y: 1.5vh;
 
   --clr-body: #444;
   --clr-block: #555;
@@ -27,7 +27,16 @@ h1 {
 }
 header {
   background-color: var(--clr-light-900);
-  margin: var(--offset-y) var(--offset-x);
+  margin: var(--margin-y) var(--margin-x);
+}
+footer {
+  background-color: var(--clr-light-900);
+  margin: var(--margin-y) var(--margin-x);
+  padding: 1.5rem;
+  text-align: center;
+}
+footer a {
+  text-decoration: none;
 }
 button,
 input[type="button"] {
@@ -54,7 +63,7 @@ header > h1 {
 }
 main {
   background-color: var(--clr-light-900);
-  margin: var(--offset-y) var(--offset-x);
+  margin: var(--margin-y) var(--margin-x);
   display: flex;
   padding: 1rem;
   column-gap: 1rem;
@@ -85,7 +94,6 @@ main > section:nth-child(2) {
   width: 30%;
   color: var(--clr-light-900);
   /* text-shadow: 0 0 5px var(--clr-light-900); */
-  text-align: center;
 }
 .field > textarea,
 .field > input {
@@ -98,6 +106,10 @@ main > section:nth-child(2) {
 }
 .field.field-double textarea {
   width: 100%;
+}
+.field.field-double label {
+  width: 100%;
+  text-align: left;
 }
 .btn-group {
   display: flex;
