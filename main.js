@@ -22,14 +22,14 @@ const CANVAS_BOXES_WIDTH = CANVAS.width - 100;
 const NAME_CANVAS_BOX_HEIGHT = 60;
 const DESCRIPTION_CANVAS_BOX_HEIGHT = 200;
 
-// Setting initial background colors
+// Setting initial background colors for name and description boxes
 var nameBackgroundColor = NAME_BACKGROUND_INPUT.value;
 var descriptionBackgroundColor = DESCRIPTION_BACKGROUND_INPUT.value;
 
 // Creating, loading and appending the Vinque font
 const fontFile = new FontFace(
   "FontFamily Style Vinque",
-  "url(Vinque.otf)"
+  "url(static/Vinque.otf)"
 )
 
 fontFile.load().then(function(loadedFont) {
@@ -41,13 +41,13 @@ fontFile.load().then(function(loadedFont) {
 // Setting initial images with default values
 let backgroundImage = new Image();
 backgroundImage.crossOrigin = "anonymous";
-backgroundImage.src = "bg.png"
+backgroundImage.src = "static/background_default.png"
 
 let iconImage = new Image(100, 100);
 iconImage.crossOrigin = "anonymous";
 
 
-// On loading the page, initialize event Listeners and draw blank card with boxes for name and description
+// On loading the page, initialize event listeners and draw blank card with boxes for name and description
 window.onload = () => {
   initListeners()
   drawBackground();
@@ -212,7 +212,7 @@ function wrapText(text, x, y, maxWidth, lineHeight) {
 
 function downloadCard() {
   const link = document.createElement('a');
-  link.download = 'debuff-card.png';
+  link.download = `${NAME_INPUT.value}-card.png`;
   link.setAttribute("href" ,CANVAS.toDataURL("image/png"));
   link.click();
 }
